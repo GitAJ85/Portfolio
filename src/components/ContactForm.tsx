@@ -45,13 +45,8 @@ const ContactForm = ({ onSubmit = () => {} }: ContactFormProps) => {
     setIsSubmitting(true);
     setSubmitStatus(null);
 
-    const API_URL =
-    process.env.NODE_ENV === "production"
-      ? "/api/contact"
-      : "http://localhost:5000/api/contact";
-
     try {
-      const response = await fetch(API_URL, {
+      const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
