@@ -1,25 +1,24 @@
-import nodemailer from 'nodemailer';
+const nodemailer = require('nodemailer');
 
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     return res.status(405).json({ success: false, message: 'Method not allowed' });
   }
 
   const { name, email, subject, message } = req.body;
 
-  // Create the transporter (same as before)
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: process.env.EMAIL_USER, // from Vercel environment variable
-      pass: process.env.EMAIL_PASS, // from Vercel environment variable
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
     },
   });
 
   try {
     await transporter.sendMail({
       from: `"${name}" <${email}>`,
-      to: 'akhilwork91@gmail.com', // receiving email
+      to: 'akhilwork91@gmail.com',
       subject: `[Portfolio] ${subject}`,
       text: message,
       html: `
@@ -34,4 +33,4 @@ export default async function handler(req, res) {
     console.error(error);
     return res.status(500).json({ success: false, message: 'Failed to send message.' });
   }
-}
+};
